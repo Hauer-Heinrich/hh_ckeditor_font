@@ -1,0 +1,77 @@
+# DEINE FINALE RTE YAML KONFIGURATION
+# Bereit zum Einsatz - alle notwendigen Teile enthalten!
+
+imports:
+    - { resource: 'EXT:rte_ckeditor/Configuration/RTE/Processing.yaml' }
+    - { resource: 'EXT:rte_ckeditor/Configuration/RTE/Editor/Base.yaml' }
+    - { resource: 'EXT:rte_ckeditor/Configuration/RTE/Editor/Plugins.yaml' }
+
+editor:
+  config:
+    # =========================================================================
+    # MODULE IMPORTS
+    # =========================================================================
+    # Importiert das CKEditor5 Font Plugin (für fontFamily, fontSize, etc.)
+    importModules:
+      - { module: '@ckeditor/ckeditor5-font', exports: ['Font'] }
+
+    # =========================================================================
+    # TOOLBAR - WICHTIG!
+    # =========================================================================
+    # Definiert welche Buttons in der Toolbar angezeigt werden
+    # 'fontFamily' MUSS hier sein, sonst wird der Button nicht angezeigt!
+    toolbar:
+      items:
+        - 'undo'
+        - 'redo'
+        - '|'
+        - 'bold'
+        - 'italic'
+        - 'underline'
+        - '|'
+        - 'fontFamily'          # ← Font-Dropdown
+        - '|'
+        - 'bulletedList'
+        - 'numberedList'
+        - '|'
+        - 'link'
+        - 'blockQuote'
+        - '|'
+        - 'sourceEditing'
+
+    # =========================================================================
+    # FONT FAMILY KONFIGURATION
+    # =========================================================================
+    # Definiert die verfügbaren Schriftarten
+    fontFamily:
+      options:
+        - 'default'                           # Keine besondere Schriftart
+        - title: 'Moulin Web'                 # Name im Dropdown
+          model: 'moulin-web'                 # Eindeutiger Identifier
+          view:
+            name: 'span'                      # HTML Element
+            classes: 'font-moulin-web'        # CSS-Klasse (muss in CSS definiert sein!)
+        - title: 'NeueHaasUnica'
+          model: 'neue-haas-unica'
+          view:
+            name: 'span'
+            classes: 'font-neue-haas-unica'   # Muss in CSS definiert sein!
+
+# ============================================================================
+# NOTIZEN
+# ============================================================================
+#
+# WICHTIG: CSS-Klassen müssen in deinem Theme definiert sein!
+#
+# .font-moulin-web {
+#   font-family: 'Moulin Web', sans-serif;
+# }
+#
+# .font-neue-haas-unica {
+#   font-family: 'NeueHaasUnica', sans-serif;
+# }
+#
+# Nach Änderungen: Cache leeren!
+# ./Build/bin/typo3 cache:flush
+#
+# ============================================================================

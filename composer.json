@@ -1,0 +1,50 @@
+{
+    "type": "typo3-cms-extension",
+    "name": "hauerheinrich/hh-ckeditor-font",
+    "description": "Same as the original ck_editor font plugin but output 'span'-tag instead of inline styles.",
+    "keywords": [ "TYPO3 CMS", "TYPO3", "extension", "ckeditor" ],
+    "homepage": "https://www.hauer-heinrich.de",
+    "readme": "README.md",
+    "time": "2026-03-10",
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Martin Hofmann",
+            "homepage": "https://www.hauer-heinrich.de",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/Hauer-Heinrich/hh_ckeditor_font/issues",
+        "source": "https://github.com/Hauer-Heinrich/hh_ckeditor_font",
+        "docs": "https://github.com/Hauer-Heinrich/hh_ckeditor_font/blob/master/README.md"
+    },
+    "funding": [
+        {
+            "type": "paypal",
+            "url": "https://www.paypal.com/paypalme/hauerheinrich"
+        }
+    ],
+    "replace": {
+        "HauerHeinrich/hh_ckeditor_highlight": "self.version",
+        "typo3-ter/hh-ckeditor-highlight": "self.version"
+    },
+    "require": {
+        "typo3/cms-core": "^13.4.0",
+        "typo3/cms-rte-ckeditor": "^13.4.0"
+    },
+    "suggest": {
+    },
+    "autoload": {
+        "psr-4": {
+            "HauerHeinrich\\HhCkeditorFont\\": "Classes"
+        }
+    },
+    "extra": {
+        "typo3/cms": {
+            "cms-package-dir": "{$vendor-dir}/typo3/cms",
+            "web-dir": ".Build/Web",
+            "extension-key": "hh_ckeditor_font"
+        }
+    }
+}
