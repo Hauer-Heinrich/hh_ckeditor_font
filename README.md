@@ -7,11 +7,20 @@ Same as the original ck_editor highlight plugin but output 'span'-tag instead of
 Don't forget to include the PageTS -> backend->rootPage->site configuration->resources!
 
 ### Configuration
-See [example](Configuration/RTE/example.yaml)
-You have the additional option "type": "span" to render a HTML-tag "span" element instead of original "mark"-tag.
+Siehe [Beispiel](Configuration/RTE/example.yaml).
 
-```
-- { model: 'brandSpan', class: 'color-brand', title: 'Color Brand (span)', color: '#4DAF2E', type: 'span' }
+In addition to the previous configuration, you can now use the `classes` option. This allows you to apply CSS classes for color styling instead of inline styles. If you do not specify `classes`, the behavior remains unchanged: colors will still be applied using inline styles.
+
+Beispielkonfiguration:
+
+```yaml
+fontColor:
+    colors:
+        - { classes: ['color-primary'], label: 'Color Blütengelb', color: '#F8F213' }
+
+fontBackgroundColor:
+    colors:
+        - { classes: ['background-color-primary'], label: 'Color Blütengelb', color: '#F8F213' }
 ```
 
 [GitHub Issue](https://github.com/ckeditor/ckeditor5/issues/6557#issuecomment-3132239802 "GitHub Issue")
