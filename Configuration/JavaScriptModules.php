@@ -1,15 +1,14 @@
 <?php
 
-$extensionKey = 'hh_ckeditor_font';
-
+/**
+ * Registriert das CKEditor-Plugin als ES6-Modul in der Importmap des Backends.
+ */
 return [
-    'dependencies' => [
-        'backend',
-    ],
+    'dependencies' => ['backend'],
     'tags' => [
         'backend.form',
     ],
     'imports' => [
-        '@HauerHeinrich/ckeditor5-font' => 'EXT:hh_ckeditor_font/Resources/Public/JavaScript/@ckeditor/ckeditor5-font.js',
+        '@hauerheinrich/hh-ckeditor-font/' => 'EXT:hh_ckeditor_font/Resources/Public/JavaScript/',
     ],
 ];

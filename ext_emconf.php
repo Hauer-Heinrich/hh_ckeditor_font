@@ -1,26 +1,16 @@
 <?php
 
-/***************************************************************
- * Extension Manager/Repository config file for ext "hh_ckeditor_highlight".
- *
- * Auto generated 05-02-2026 11:08
- *
- * Manual updates:
- * Only the data in the array - everything else is removed by next
- * writing. "version" and "dependencies" must not be touched!
- ***************************************************************/
-
 $EM_CONF['hh_ckeditor_font'] = [
-    'title' => 'Hauer-Heinrich - ck_editor font plugin',
-    'description' => 'Same as the original ck_editor font plugin but output "span"-tag instead of inline styles',
+    'title' => 'Hauer-Heinrich - RTE Font Buttons',
+    'description' => 'CKEditor 5 Font buttons for TYPO3 v13: class-based font color, font background color and font family pickers, fully configurable via RTE YAML.',
     'category' => 'plugin',
-    'version' => '1.0.0',
     'state' => 'stable',
     'uploadfolder' => false,
-    'clearcacheonload' => false,
-    'author' => 'Martin Hofmann',
+    'clearcacheonload' => true,
+    'author' => 'Martin Hofmann, Christian Hackl',
     'author_email' => 'web@hauer-heinrich.de',
     'author_company' => 'www.hauer-heinrich.de',
+    'version' => '2.0.0',
     'constraints' => [
         'depends' => [
             'typo3' => '13.4.0-13.4.99',

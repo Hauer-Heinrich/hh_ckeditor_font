@@ -1,0 +1,23 @@
+/**
+ * Beispiel-CSS passend zu Configuration/RTE/PaletteButtons.yaml
+ *
+ * Wird im Backend via editor.config.contentsCss geladen.
+ * Im Frontend muss die Datei (bzw. das eigene Pendant im Sitepackage)
+ * selbst eingebunden werden, z. B. via TypoScript:
+ *
+ *   page.includeCSS.rtePalette = EXT:rte_palette_buttons/Resources/Public/Css/palette-example.css
+ */
+
+/* Schriftfarben */
+.color-primary { color: #f8f213; }
+.color-secondary { color: #0aa1dd; }
+.color-danger { color: #d93025; }
+
+/* Hintergrundfarben */
+.background-color-primary { background-color: #f8f213; }
+.background-color-secondary { background-color: #0aa1dd; }
+
+/* Schriftarten */
+.font-sans { font-family: Arial, Helvetica, sans-serif; }
+.font-serif { font-family: Georgia, "Times New Roman", serif; }
+.font-mono { font-family: Consolas, "Courier New", monospace; }

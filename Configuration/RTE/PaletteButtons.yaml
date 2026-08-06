@@ -1,0 +1,92 @@
+# Beispiel-Preset "paletteButtons"
+#
+# Aktivierung z. B. via Page TSconfig:
+#   RTE.default.preset = paletteButtons
+#
+# Die Bloecke "importModules", "fontColorBtn", "fontBackgroundColorBtn" und
+# "fontFamilyBtn" koennen auch 1:1 in ein bestehendes eigenes Preset
+# uebernommen werden. Jeder Button ist optional: Einfach den jeweiligen
+# Config-Block und den Toolbar-Eintrag weglassen.
+
+imports:
+  - { resource: "EXT:rte_ckeditor/Configuration/RTE/Processing.yaml" }
+  - { resource: "EXT:rte_ckeditor/Configuration/RTE/Editor/Base.yaml" }
+  - { resource: "EXT:rte_ckeditor/Configuration/RTE/Editor/Plugins.yaml" }
+
+editor:
+  config:
+    # CSS, damit die Klassen auch im Backend-Editor sichtbar gerendert werden.
+    # Achtung: contentsCss ersetzt die Default-Liste, daher die Core-Datei
+    # mit angeben.
+    contentsCss:
+      - "EXT:rte_ckeditor/Resources/Public/Css/contents.css"
+      - "EXT:hh_ckeditor_font/Resources/Public/Css/palette-example.css"
+
+    importModules:
+      - {
+          module: '@hauerheinrich/hh-ckeditor-font/palette-buttons.min.js',
+          exports: [ 'FontColorBtn', 'FontBackgroundColorBtn', 'FontFamilyBtn' ]
+        }
+
+    toolbar:
+      items:
+        - heading
+        - '|'
+        - bold
+        - italic
+        - underline
+        - '|'
+        - fontColorBtn
+        - fontBackgroundColorBtn
+        - fontFamilyBtn
+        - '|'
+        - removeFormat
+        - '|'
+        - link
+        - bulletedList
+        - numberedList
+        - '|'
+        - undo
+        - redo
+        - '|'
+        - sourceEditing
+
+    # ------------------------------------------------------------------
+    # a) Schriftfarben-Palette
+    # ------------------------------------------------------------------
+    fontColorBtn:
+      # Optional: Beschriftung des Toolbar-Buttons und des Entfernen-Buttons
+      label: 'Schriftfarbe'
+      removeLabel: 'Schriftfarbe entfernen'
+      # Optional: echten Colorpicker zusaetzlich anbieten (Default: false).
+      # Der Picker setzt Inline-Styles (style="color: ...") statt Klassen!
+      colorPicker: false
+      # Optional: Anzahl Spalten der Palette (Default: 5)
+      columns: 5
+      colors:
+        - { classes: ['color-primary'], label: 'Primaerfarbe', color: '#F8F213' }
+        - { classes: ['color-secondary'], label: 'Sekundaerfarbe', color: '#0AA1DD' }
+        - { classes: ['color-danger'], label: 'Warnfarbe', color: '#D93025' }
+
+    # ------------------------------------------------------------------
+    # b) Hintergrundfarben-Palette
+    # ------------------------------------------------------------------
+    fontBackgroundColorBtn:
+      label: 'Hintergrundfarbe'
+      removeLabel: 'Hintergrundfarbe entfernen'
+      colorPicker: false
+      colors:
+        - { classes: ['background-color-primary'], label: 'Hintergrund primaer', color: '#F8F213' }
+        - { classes: ['background-color-secondary'], label: 'Hintergrund sekundaer', color: '#0AA1DD' }
+
+    # ------------------------------------------------------------------
+    # c) Schriftarten-Auswahl
+    # ------------------------------------------------------------------
+    fontFamilyBtn:
+      label: 'Schriftart'
+      # Beschriftung des Eintrags, der die Klasse wieder entfernt
+      defaultLabel: 'Standard'
+      fonts:
+        - { classes: ['font-sans'], label: 'Sans-Serif', fontFamily: 'Arial, Helvetica, sans-serif' }
+        - { classes: ['font-serif'], label: 'Serif', fontFamily: 'Georgia, "Times New Roman", serif' }
+        - { classes: ['font-mono'], label: 'Monospace', fontFamily: 'Consolas, "Courier New", monospace' }

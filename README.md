@@ -1,52 +1,154 @@
-# hh_ckeditor_highlight
-hh_ckeditor_highlight is a TYPO3 extension.
-Same as the original ck_editor highlight plugin but output 'span'-tag instead of 'mark'.
+# RTE Palette Buttons (TYPO3 v13)
 
-### Installation
-... like any other TYPO3 extension [extensions.typo3.org](https://extensions.typo3.org/ "TYPO3 Extension Repository")
-Don't forget to include the PageTS -> backend->rootPage->site configuration->resources!
+CKEditor-5-Erweiterung für TYPO3 v13, die drei **optionale** Toolbar-Buttons
+bereitstellt – alle **klassenbasiert** (es werden `<span class="...">`-Elemente
+erzeugt, keine Inline-Styles):
 
-### Configuration
-Siehe [Beispiel](Configuration/RTE/example.yaml).
+| Toolbar-Item             | Funktion                                        |
+| ------------------------ | ----------------------------------------------- |
+| `fontColorBtn`           | Schriftfarben-Palette (ohne Colorpicker)        |
+| `fontBackgroundColorBtn` | Hintergrundfarben-Palette (ohne Colorpicker)    |
+| `fontFamilyBtn`          | Schriftarten-Auswahl                            |
 
-In addition to the previous configuration, you can now use the `classes` option. This allows you to apply CSS classes for color styling instead of inline styles. If you do not specify `classes`, the behavior remains unchanged: colors will still be applied using inline styles.
+Welche Buttons erscheinen und welche Farben / Schriftarten / CSS-Klassen zur
+Auswahl stehen, wird vollständig über die **RTE-YAML-Konfiguration** gesteuert.
 
-Beispielkonfiguration:
+## Installation
 
-```yaml
-fontColor:
-    colors:
-        - { classes: ['color-primary'], label: 'Color Blütengelb', color: '#F8F213' }
+**Composer-Mode** – z. B. als lokales Package (Pfad ggf. anpassen):
 
-fontBackgroundColor:
-    colors:
-        - { classes: ['background-color-primary'], label: 'Color Blütengelb', color: '#F8F213' }
+```json
+"repositories": [
+    { "type": "path", "url": "packages/*" }
+]
 ```
 
-[GitHub Issue](https://github.com/ckeditor/ckeditor5/issues/6557#issuecomment-3132239802 "GitHub Issue")
+```bash
+composer require hauerheinrich/hh-ckeditor-font:@dev
+```
 
-### Development
+**Classic-Mode:** Ordner nach `typo3conf/ext/hh_ckeditor_font` kopieren und
+die Extension im Extension Manager aktivieren.
 
-Want to contribute? Great!
+Danach in beiden Fällen: Caches leeren (`vendor/bin/typo3 cache:flush`).
 
-##### Copyright notice
+## Schnellstart
 
-This repository is part of the TYPO3 project. The TYPO3 project is
-free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
+Die Extension bringt ein fertiges Beispiel-Preset `paletteButtons` mit.
+Aktivierung via Page TSconfig:
 
-The GNU General Public License can be found at
-http://www.gnu.org/copyleft/gpl.html.
+```tsconfig
+RTE.default.preset = paletteButtons
+```
 
-This repository is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+## Integration in ein eigenes Preset
 
-This copyright notice MUST APPEAR in all copies of the repository!
+In das eigene RTE-YAML übernehmen (jeder Button ist optional – einfach den
+Config-Block und den Toolbar-Eintrag weglassen):
 
-##### License
-----
-GNU GENERAL PUBLIC LICENSE Version 3
+```yaml
+editor:
+  config:
+    importModules:
+      - {
+          module: '@hauerheinrich/hh-ckeditor-font/palette-buttons.min.js',
+          exports: [ 'FontColorBtn', 'FontBackgroundColorBtn', 'FontFamilyBtn' ]
+        }
+
+    toolbar:
+      items:
+        - fontColorBtn
+        - fontBackgroundColorBtn
+        - fontFamilyBtn
+
+    fontColorBtn:
+      colors:
+        - { classes: ['color-primary'], label: 'Color primary', color: '#F8F213' }
+        - { classes: ['color-secondary'], label: 'Color secondary', color: '#0AA1DD' }
+
+    fontBackgroundColorBtn:
+      colors:
+        - { classes: ['background-color-primary'], label: 'Color primary', color: '#F8F213' }
+        - { classes: ['background-color-secondary'], label: 'Color secondary', color: '#0AA1DD' }
+
+    fontFamilyBtn:
+      fonts:
+        - { classes: ['font-sans'], label: 'Sans-Serif', fontFamily: 'Arial, sans-serif' }
+        - { classes: ['font-serif'], label: 'Serif', fontFamily: 'Georgia, serif' }
+```
+
+Tipp: Wer nur einen einzelnen Button möchte, listet in `exports` nur das
+jeweilige Plugin (z. B. `exports: [ 'FontColorBtn' ]`). Alternativ steht auch
+das Sammel-Plugin `PaletteButtons` als Export zur Verfügung.
+
+## Konfigurationsreferenz
+
+### `fontColorBtn` / `fontBackgroundColorBtn`
+
+| Option        | Typ     | Default                    | Beschreibung |
+| ------------- | ------- | -------------------------- | ------------ |
+| `colors`      | Liste   | `[]`                       | Paletten-Einträge, siehe unten |
+| `label`       | String  | „Schriftfarbe" / „Hintergrundfarbe" | Tooltip / Label des Toolbar-Buttons |
+| `removeLabel` | String  | „… entfernen"              | Beschriftung des Entfernen-Buttons im Dropdown |
+| `columns`     | Integer | `5`                        | Spalten der Farbpalette |
+| `colorPicker` | Boolean | `false`                    | Optionalen Colorpicker unter der Palette anzeigen (siehe Hinweis unten) |
+
+Paletten-Eintrag (`colors`):
+
+| Feld      | Typ            | Beschreibung |
+| --------- | -------------- | ------------ |
+| `classes` | Liste / String | CSS-Klasse(n), die auf das `<span>` gesetzt werden |
+| `label`   | String         | Tooltip der Kachel |
+| `color`   | String         | Anzeigefarbe der Kachel in der Palette (rein visuell, z. B. `#F8F213`) |
+| `border`  | Boolean        | Rahmen um die Kachel (Default `true`, hilfreich bei hellen Farben) |
+
+### `fontFamilyBtn`
+
+| Option         | Typ    | Default      | Beschreibung |
+| -------------- | ------ | ------------ | ------------ |
+| `fonts`        | Liste  | `[]`         | Einträge mit `classes`, `label` und optional `fontFamily` (nur als Tooltip genutzt) |
+| `label`        | String | „Schriftart" | Label des Toolbar-Buttons |
+| `defaultLabel` | String | „Standard"   | Beschriftung des Eintrags, der die Klasse entfernt |
+
+## Erzeugtes Markup
+
+```html
+<p>Text mit <span class="color-primary">farbigem</span> und
+<span class="background-color-primary">hinterlegtem</span> Inhalt in
+<span class="font-serif">Serifenschrift</span>.</p>
+```
+
+Die Attribute sind kombinierbar (verschachtelte Spans), werden vom
+„Formatierung entfernen"-Button (`removeFormat`) mit gelöscht und beim
+erneuten Öffnen des Editors korrekt wiedererkannt (Upcast).
+
+## Wichtige Hinweise
+
+1. **Backend-Vorschau:** Damit die Klassen im Editor sichtbar sind, muss das
+   CSS via `editor.config.contentsCss` geladen werden (siehe Beispiel-Preset;
+   dabei die Core-Datei `EXT:rte_ckeditor/Resources/Public/Css/contents.css`
+   mit angeben, da `contentsCss` die Default-Liste ersetzt).
+
+2. **Frontend:** Die Klassen müssen im Frontend-CSS des Sitepackages definiert
+   sein, z. B. durch Einbinden von
+   `Resources/Public/Css/palette-example.css` (oder besser: eigene Datei):
+
+   ```typoscript
+   page.includeCSS.rtePalette = EXT:hh_ckeditor_font/Resources/Public/Css/palette-example.css
+   ```
+
+3. **Optionaler Colorpicker (`colorPicker: true`):** Frei gewählte Farben
+   lassen sich naturgemäß nicht auf CSS-Klassen abbilden – der Picker setzt
+   daher Inline-Styles (`<span style="color: …">`). Falls Inline-Styles beim
+   Speichern oder bei der Frontend-Ausgabe entfernt werden, muss die
+   Processing-/parseFunc-Konfiguration der Installation entsprechend
+   angepasst werden. Für rein klassenbasiertes Arbeiten die Option einfach
+   auf `false` lassen (Default).
+
+4. **Optionalität:** Ist ein Config-Block (z. B. `fontFamilyBtn`) nicht
+   vorhanden, registriert das zugehörige Plugin nichts. Der Toolbar-Eintrag
+   sollte dann ebenfalls entfernt werden, sonst loggt CKEditor eine Warnung
+   in der Browser-Konsole.
+
+5. **Modulname:** Der Importmap-Prefix `@hauerheinrich/hh-ckeditor-font/` kann
+   in `Configuration/JavaScriptModules.php` und im YAML angepasst werden.
